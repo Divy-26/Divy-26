@@ -8,3 +8,5 @@ In the course of the research phase, it was also necessary to assess the user ne
 Concerning data security the practices of the industry have been reviewed to check the standard of the app for password storing. 
 Password encryption was done to SHA-256 to meet standards in preserving sensitive data security.
 -->
+<img width="451" alt="image" src="https://github.com/user-attachments/assets/e07fa881-0665-4485-b023-55c96cd79760" />
+
