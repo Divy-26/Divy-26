@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - eHotelManager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h2 class="my-4">Admin Dashboard</h2>
+
+        <!-- Rooms Overview -->
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">Room Status</h5>
+                <p class="card-text">Total Number of Rooms: {{ num_rooms }}</p>
+            </div>
+        </div>
+
+        <!-- Pending Payments -->
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">Pending Payments</h5>
+                <p class="card-text">Total Pending Payments: {{ pending_payments }}</p>
+            </div>
+        </div>
+
+        <!-- Customer List -->
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">Customers</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Email</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for customer in customers %}
+                            <tr>
+                                <td>{{ customer[0] }}</td>
+                                <td>{{ customer[1] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Customer Complaints -->
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">Customer Complaints</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Complaint</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for complaint in complaints %}
+                            <tr>
+                                <td>{{ complaint[1] }}</td>
+                                <td>{{ complaint[2] }}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Room List -->
+        <div class="card my-4">
+            <div class="card-body">
+                <h5 class="card-title">Rooms</h5>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Room Number</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for room in rooms %}
+                            <tr>
+                                <td>{{ room[1] }}</td>
+                                <td>{{ room[2] }}</td>
+                                <td>
+                                    <form method="POST" action="{{ url_for('update_room_status') }}">
+                                        <input type="hidden" name="room_id" value="{{ room[0] }}">
+                                        <select name="status">
+                                            <option value="Available" {% if room[2] == 'Available' %}selected{% endif %}>Available</option>
+                                            <option value="Cleaning" {% if room[2] == 'Cleaning' %}selected{% endif %}>Cleaning</option>
+                                            <option value="Do Not Disturb" {% if room[2] == 'Do Not Disturb' %}selected{% endif %}>Do Not Disturb</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary">Update Status</button>
+                                    </form>
+                                    <form method="POST" action="{{ url_for('delete_room') }}">
+                                        <input type="hidden" name="room_id" value="{{ room[0] }}">
+                                        <button type="submit" class="btn btn-danger">Delete Room</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <a href="{{ url_for('admin_logout') }}" class="btn btn-danger">Logout</a>
+    </div>
+</body>
+</html>
